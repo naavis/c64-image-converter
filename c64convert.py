@@ -43,8 +43,20 @@ def main(args):
     palette_lab = np.squeeze(skimage.color.rgb2lab(np.expand_dims(srgb_palette, 0)))
     palette_lab /= palette_lab[:, 0].max() / 100.0
 
-    # TODO: For each pixel find the palette color that minimizes delta-E
+    # For each pixel find the palette color that minimizes delta-E
+    # TODO: Vectorize index search for speed!
+    best_indices = []
+    for row in image_lab:
+        for pixel in row:
+            best_indices.append(find_best_palette_index(pixel, palette_lab))
+    best_indices = np.array(best_indices).reshape(image_lab.shape[:2])
+
     # TODO: Process each 8x8 block to use only 2 colors per block
+
+
+def find_best_palette_index(lab_pixel, lab_palette):
+    differences = np.array([skimage.color.deltaE_cie76(lab_pixel, color) for color in lab_palette])
+    return differences.argmin()
 
 
 if __name__ == '__main__':
