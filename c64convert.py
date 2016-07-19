@@ -3,6 +3,7 @@ import numpy as np
 import skimage.color
 import skimage.io
 import skimage.transform
+import matplotlib.pyplot as plt
 
 srgb_palette = np.array([
     [0.0, 0.0, 0.0],  # Black
@@ -51,7 +52,15 @@ def main(args):
             best_indices.append(find_best_palette_index(pixel, palette_lab))
     best_indices = np.array(best_indices).reshape(image_lab.shape[:2])
 
-    # TODO: Process each 8x8 block to use only 2 colors per block
+    best_match_image = np.zeros(target_shape)
+    for i in range(0, srgb_palette.shape[0]):
+        best_match_image[best_indices == i] = srgb_palette[i, :]
+
+    best_match_image /= best_match_image.max()
+    plt.imshow(best_match_image, interpolation="nearest")
+    plt.show()
+
+    # TODO: Divide image into 8x8 pixel blocks and make sure each block contains only two colors
 
 
 def find_best_palette_index(lab_pixel, lab_palette):
