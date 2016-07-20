@@ -45,12 +45,10 @@ def main(args):
     palette_lab /= palette_lab[:, 0].max() / 100.0
 
     # For each pixel find the palette color that minimizes delta-E
-    # TODO: Vectorize index search for speed!
-    best_indices = []
-    for row in image_lab:
-        for pixel in row:
-            best_indices.append(find_best_palette_index(pixel, palette_lab))
-    best_indices = np.array(best_indices).reshape(image_lab.shape[:2])
+    differences = np.zeros((16, 200, 320))
+    for color_index, palette_color in enumerate(palette_lab):
+        differences[color_index, :, :] = skimage.color.deltaE_cie76(image_lab, palette_color)
+    best_indices = differences.argmin(axis=0)
 
     best_match_image = np.zeros(target_shape)
     for i in range(0, srgb_palette.shape[0]):
