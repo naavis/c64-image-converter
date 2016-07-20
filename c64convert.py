@@ -6,6 +6,7 @@ import skimage.transform
 import matplotlib.pyplot as plt
 
 # Approximate sRGB values of the C64 color palette
+# Source: http://www.pepto.de/projects/colorvic/
 srgb_palette = np.array([
     [0.0, 0.0, 0.0],  # Black
     [254.999999878, 254.999999878, 254.999999878],  # White
