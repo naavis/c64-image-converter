@@ -17,11 +17,14 @@ Usage
 python c64convert.py filename.png
 ```
 
+Currently only the preview image is given. Sane data output is still unimplemented.
+
 To-do
 -----
 
 - Output color indices in some sane format.
 - Handle multicolor bitmap mode.
+- Dithering for gradients.
 
 Requirements
 ------------
