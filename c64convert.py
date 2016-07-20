@@ -5,6 +5,7 @@ import skimage.io
 import skimage.transform
 import matplotlib.pyplot as plt
 
+# Approximate sRGB values of the C64 color palette
 srgb_palette = np.array([
     [0.0, 0.0, 0.0],  # Black
     [254.999999878, 254.999999878, 254.999999878],  # White
@@ -76,11 +77,23 @@ def main(args):
 
     reduced_indices = unblockshaped(reduced_indices, *(target_shape[:2]))
     reduced_image = convert_index_image_to_color_image(reduced_indices, srgb_palette)
-    plt.imshow(reduced_image, interpolation="nearest")
+
+    fig, ax = plt.subplots(1, 2, figsize=(11, 4), dpi=100)
+    for i, image_to_show in enumerate([image, reduced_image]):
+        ax[i].imshow(image_to_show, interpolation='nearest')
+        ax[i].get_xaxis().set_visible(False)
+        ax[i].get_yaxis().set_visible(False)
+    fig.tight_layout()
     plt.show()
 
 
 def convert_index_image_to_color_image(indices, palette):
+    """
+    Convert an NxM indexed color image to an NxMx3 RGB color image.
+    :param indices: NxM Numpy array of integers, corresponding to the palette indices.
+    :param palette: Lx3 Numpy array of floats, corresponding to the palette colors.
+    :return: NxMx3 color image as a Numpy array.
+    """
     target_shape = (*indices.shape, 3)
     image = np.zeros(target_shape)
     for i in range(0, palette.shape[0]):
