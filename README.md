@@ -8,7 +8,7 @@ and divided into 8x8 pixel blocks. Only two colors are allowed in each
 block. The Commodore 64 color palette has 16 fixed colors.
 
 ![Before and after](images/before_and_after.png?raw=true "Before and after color mangling")
-Photo before and after conversion
+Photo before and after conversion shown above.
 
 Usage
 -----
